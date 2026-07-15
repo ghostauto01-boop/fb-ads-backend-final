@@ -1,7 +1,0 @@
-flask
-flask-cors
-playwright==1.44.0
-greenlet==3.0.3
-beautifulsoup4
-lxml
-gunicorn
