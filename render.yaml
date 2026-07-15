@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: fb-ads-scraper-final
+    env: python
+    plan: free
+    buildCommand: |
+      pip install --upgrade pip setuptools wheel
+      pip install --prefer-binary --only-binary=:all: greenlet==3.0.3 || pip install greenlet==3.0.3
+      pip install --prefer-binary -r requirements.txt
+      python -m playwright install chromium
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 300
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PIP_ONLY_BINARY
+        value: greenlet
