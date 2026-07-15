@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FB Ads Library Scraper - Final Clean Version</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>body{font-family:Inter,sans-serif} .glass{backdrop-filter:blur(12px);background:rgba(255,255,255,.85)}</style>
+</head>
+<body class="bg-[#f8f9ff] min-h-screen">
+<nav class="sticky top-0 z-50 glass border-b">
+<div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-3"><div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black">f</div><div><div class="font-bold">Ads Library Scraper</div><div class="text-[11px] text-gray-500">Final Fixed • Render Ready</div></div></div>
+<div class="flex items-center gap-2"><div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div><span id="serverStatus" class="text-xs font-mono">checking...</span></div>
+</div>
+</nav>
+<div class="max-w-6xl mx-auto px-6 py-8 grid lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white rounded-[20px] shadow-sm border p-7">
+<h1 class="text-3xl font-extrabold">Paste Any Facebook Ads Library Link</h1>
+<p class="text-gray-500 mt-2 text-sm">Auto-scrolls 30+ pages, takes full screenshot + JSON + HTML. This is the FIXED version that deploys on Render Python free tier.</p>
+<div class="mt-6 space-y-4">
+<div>
+<label class="text-sm font-semibold">Facebook Ads Library URL</label>
+<input id="urlInput" type="url" value="https://web.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&is_targeted_country=false&media_type=all&q=women%20fashion&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc" class="w-full mt-2 p-4 bg-gray-50 border rounded-xl text-sm font-mono focus:ring-2 focus:ring-blue-500 outline-none">
+<div class="text-[10px] text-gray-400 mt-1">Copy any URL from facebook.com/ads/library</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div><label class="text-sm font-semibold">Pages</label><div class="flex items-center gap-3 mt-2"><input id="pagesInput" type="range" min="5" max="100" value="30" class="flex-1"><span id="pagesVal" class="bg-black text-white text-sm px-3 py-1.5 rounded-full font-bold">30</span></div></div>
+<div><label class="text-sm font-semibold">Expected Ads</label><div class="mt-2 p-3 bg-gray-50 border rounded-xl text-sm" id="expected">~600-900 ads</div></div>
+</div>
+<button id="scrapeBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2"><span>⚡</span><span id="btnText">Start Scraping 30 Pages</span></button>
+</div>
+</div>
+<div id="logBox" class="bg-[#0f1117] rounded-[20px] p-6 hidden">
+<div class="flex justify-between items-center mb-4"><div class="text-white font-bold flex items-center gap-2"><div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>Live Log</div><div id="jobIdBadge" class="text-[11px] font-mono bg-white/10 text-white/70 px-2 py-1 rounded-full"></div></div>
+<div id="logs" class="font-mono text-[12px] text-green-300 space-y-1 max-h-[320px] overflow-y-auto bg-black/30 p-4 rounded-xl"></div>
+<div class="mt-4"><div class="h-2 bg-white/10 rounded-full overflow-hidden"><div id="progressBar" class="h-full bg-blue-500 w-0 transition-all"></div></div><div id="progressText" class="text-[11px] text-white/50 mt-1 font-mono">0 / 30</div></div>
+</div>
+<div id="resultBox" class="bg-white rounded-[20px] border p-7 hidden"><h3 class="font-bold text-lg">Results Ready 🎉</h3><div id="resultMeta" class="text-sm text-gray-500 mt-1"></div><div id="fileList" class="grid gap-3 mt-5"></div></div>
+</div>
+<div class="space-y-6">
+<div class="bg-black text-white rounded-[20px] p-6">
+<h3 class="font-bold">Deploy Checklist (Fixed)</h3>
+<ol class="text-sm text-white/70 mt-4 space-y-2 list-decimal list-inside leading-relaxed">
+<li>Repo root must have requirements.txt (FIXED - no nested folder)</li>
+<li>Render Environment = Python 3 (NOT Docker)</li>
+<li>Build cmd from render.yaml</li>
+<li>Test /health endpoint</li>
+</ol>
+<div class="mt-4 text-[11px] bg-white/10 p-3 rounded-xl font-mono break-all">https://fb-ads-backend-fixed.onrender.com</div>
+</div>
+<div class="bg-white rounded-[20px] border p-6">
+<h3 class="font-bold text-sm">What you get after 30 pages</h3>
+<div class="mt-3 space-y-3 text-sm">
+<div class="flex gap-3"><span class="bg-gray-100 w-7 h-7 rounded-full flex items-center justify-center">📸</span><div><b>final_30_pages.png</b><div class="text-xs text-gray-500">Full page screenshot</div></div></div>
+<div class="flex gap-3"><span class="bg-gray-100 w-7 h-7 rounded-full flex items-center justify-center">📄</span><div><b>full_page.html</b><div class="text-xs text-gray-500">Offline searchable</div></div></div>
+<div class="flex gap-3"><span class="bg-gray-100 w-7 h-7 rounded-full flex items-center justify-center">🧾</span><div><b>ads_data.json</b><div class="text-xs text-gray-500">For Excel</div></div></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const pagesInput=document.getElementById('pagesInput'), pagesVal=document.getElementById('pagesVal');
+pagesInput.oninput=e=>{pagesVal.textContent=e.target.value; document.getElementById('btnText').textContent=`Start Scraping ${e.target.value} Pages`; document.getElementById('expected').textContent=`~${e.target.value*20}-${e.target.value*30} ads`;};
+async function checkHealth(){try{const r=await fetch('/health'); document.getElementById('serverStatus').textContent=r.ok?'online ✓':'offline';}catch{document.getElementById('serverStatus').textContent='offline - waking up...';}} checkHealth();
+let currentJob=null, pollInterval=null;
+document.getElementById('scrapeBtn').onclick=async()=>{
+ const url=document.getElementById('urlInput').value.trim(); const pages=parseInt(document.getElementById('pagesInput').value);
+ if(!url.includes('facebook.com/ads/library')){alert('Valid FB Ads Library URL required');return;}
+ const btn=document.getElementById('scrapeBtn'); btn.disabled=true; btn.classList.add('opacity-50'); document.getElementById('btnText').textContent='Starting...';
+ document.getElementById('logBox').classList.remove('hidden'); document.getElementById('logs').innerHTML='<div class="text-white/40">> starting...</div>'; document.getElementById('resultBox').classList.add('hidden');
+ try{
+  const res=await fetch('/api/scrape',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,pages})});
+  const data=await res.json(); if(!res.ok) throw new Error(data.error);
+  currentJob=data.job_id; document.getElementById('jobIdBadge').textContent=`job: ${currentJob}`; document.getElementById('btnText').textContent=`Scraping... ${currentJob}`;
+  pollInterval=setInterval(pollJob,1500);
+ }catch(e){addLog(`ERROR: ${e.message}`,true); btn.disabled=false; btn.classList.remove('opacity-50');}
+};
+function addLog(msg,isErr=false){const el=document.getElementById('logs'); const d=document.createElement('div'); d.textContent=`> ${msg}`; if(isErr) d.className='text-red-400'; el.appendChild(d); el.scrollTop=el.scrollHeight;}
+async function pollJob(){
+ if(!currentJob) return;
+ try{
+  const res=await fetch(`/api/job/${currentJob}`); const data=await res.json();
+  if(data.logs){const el=document.getElementById('logs'); el.innerHTML=''; data.logs.slice(-50).forEach(l=>addLog(l));}
+  if(data.last_log){const m=data.last_log.match(/\[(\d+)\/(\d+)\]/); if(m){const cur=parseInt(m[1]),tot=parseInt(m[2]); document.getElementById('progressBar').style.width=`${(cur/tot)*100}%`; document.getElementById('progressText').textContent=`${cur} / ${tot} pages`;}}
+  if(data.status==='completed'||data.status==='failed'){
+   clearInterval(pollInterval); const btn=document.getElementById('scrapeBtn'); btn.disabled=false; btn.classList.remove('opacity-50'); document.getElementById('btnText').textContent=`Start Scraping ${document.getElementById('pagesInput').value} Pages`;
+   if(data.status==='completed'){addLog('✅ COMPLETED'); showResults(data);} else addLog(`❌ FAILED: ${data.error}`,true);
+  }
+ }catch(e){console.error(e);}
+}
+function showResults(data){
+ const box=document.getElementById('resultBox'); box.classList.remove('hidden'); document.getElementById('resultMeta').textContent=`${data.ads_count||'?'} ads • ${data.pages} pages • Job ${data.job_id}`;
+ const list=document.getElementById('fileList'); list.innerHTML=''; const icons={png:'📸',html:'📄',json:'🧾',txt:'📝'};
+ (data.files||[]).forEach(f=>{const ext=f.split('.').pop(); const a=document.createElement('a'); a.href=`/api/download/${data.job_id}/${f}`; a.className='flex items-center justify-between p-4 border rounded-xl hover:bg-gray-50'; a.innerHTML=`<div class="flex items-center gap-3"><div class="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center">${icons[ext]||'📎'}</div><div><div class="font-semibold text-sm">${f}</div><div class="text-[11px] text-gray-500">${ext}</div></div></div><div class="text-xs bg-black text-white px-3 py-1.5 rounded-full">Download</div>`; list.appendChild(a);});
+}
+</script>
+</body>
+</html>
